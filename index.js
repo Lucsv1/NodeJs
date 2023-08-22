@@ -4,6 +4,8 @@ const porta = 8080;
 
 const express = require("express");
 
+const jwt = require("jsonwebtoken")
+
 const app = express();
 app.use(express.json())
 
@@ -24,6 +26,17 @@ const lista = [
     email: "lcasgalindo@gmail.com",
   },
 ];
+
+app.route("/login").get(
+  (request, response) => {
+    const payload = {user: "antonio", profile: "admin "}
+    const token = jwt.sign(JSON.stringify(payload), "ABC123", {})
+    console.log("token:", token)
+
+    const resposta = {usuario: "antonio", token}
+    response.status(200).json(resposta)
+  }
+)
 
 app.route("/").get((request, response) => {
   console.log("Get executado");
